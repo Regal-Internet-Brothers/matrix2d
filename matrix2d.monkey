@@ -22,7 +22,7 @@ Class Matrix2D
 		Set(a, b, c, d, tx, ty)
 	End
 	
-	Method New(M:Matrix)
+	Method New(M:Matrix2D)
 		Set(M)
 	End
 	
