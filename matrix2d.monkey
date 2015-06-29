@@ -22,9 +22,13 @@ Class Matrix2D
 		Set(a, b, c, d, tx, ty)
 	End
 	
+	Method New(M:Matrix)
+		Set(M)
+	End
+	
 	' This will provide a new matrix with the same contents as this one.
 	Method Clone:Matrix2D()
-		Return New Matrix2D(Self.mA, Self.mB, Self.mC, Self.mD, Self.mTx, Self.mTy)
+		Return New Matrix2D(Self)
 	End
 	
 	' Methods:
@@ -186,7 +190,7 @@ Class Matrix2D
 	
 	' This calculates the determinate of the matrix.
 	Method Determinant:Float() Property
-    	Return ((Self.mA * Self.mD) - (Self.mC * Self.mB))
+		Return ((Self.mA * Self.mD) - (Self.mC * Self.mB))
 	End
 	
 	' Fields (Public):
