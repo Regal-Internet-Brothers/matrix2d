@@ -199,11 +199,11 @@ Class Matrix2D
 	' Fields (Protected):
 	Protected
 	
-    Field mA:Float
+	Field mA:Float
 	Field mB:Float
 	Field mC:Float
 	Field mD:Float
-    Field mTx:Float
+	Field mTx:Float
 	Field mTy:Float
 	
 	Public
