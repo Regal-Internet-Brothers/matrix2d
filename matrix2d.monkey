@@ -139,6 +139,13 @@ Class Matrix2D
 		Return
 	End
 	
+	' Currently a macro for 'LoadIdentity'.
+	Method Reset:Void()
+		LoadIdentity()
+		
+		Return
+	End
+	
 	' This performs the opposite transformation of the matrix.
 	Method Invert:Void()
 		Local det:= Self.Determinant
