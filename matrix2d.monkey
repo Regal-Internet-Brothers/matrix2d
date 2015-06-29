@@ -159,8 +159,14 @@ Class Matrix2D
 	' This applies the geometric transformation represented by the matrix to the specified point.
 	' In other words, the real position of the point.
 	Method TransformPoint:Void(Point:Vector2D<Float>)
-		Point.X = TransformPointX(Point.X, Point.Y)
-		Point.Y = TransformPointY(Point.X, Point.Y)
+		' Local variable(s):
+		
+		' Keep track of the initial X and Y values:
+		Local PX:= Point.X
+		Local PY:= Point.Y
+		
+		Point.X = TransformPointX(PX, PY)
+		Point.Y = TransformPointY(PX, PY)
 		
 		Return
 	End
@@ -172,6 +178,19 @@ Class Matrix2D
 		TransformPoint(V)
 		
 		Return V
+	End
+	
+	Method TransformPoint:Void(XY:Float[], Offset:Int=0)
+		' Local variable(s):
+		
+		' Keep track of the initial X and Y values:
+		Local X:= XY[Offset]
+		Local Y:= XY[Offset+1]
+		
+		XY[Offset] = TransformPointX(X, Y)
+		XY[Offset+1] = TransformPointY(X, Y)
+		
+		Return
 	End
 	
 	' Both X and Y positions are required to use these commands:
