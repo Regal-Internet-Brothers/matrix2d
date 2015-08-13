@@ -22,6 +22,10 @@ Class Matrix2D
 		Set(a, b, c, d, tx, ty)
 	End
 	
+	Method New(Data:Float[], Offset:Int=0)
+		Set(Data[Offset], Data[Offset+1], Data[Offset+2], Data[Offset+3], Data[Offset+4], Data[Offset+5])
+	End
+	
 	Method New(M:Matrix2D)
 		Set(M)
 	End
