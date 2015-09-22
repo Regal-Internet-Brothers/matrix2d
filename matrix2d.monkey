@@ -23,7 +23,7 @@ Class Matrix2D
 	End
 	
 	Method New(Data:Float[], Offset:Int=0)
-		Set(Data[Offset], Data[Offset+1], Data[Offset+2], Data[Offset+3], Data[Offset+4], Data[Offset+5])
+		Set(Data, Offset)
 	End
 	
 	Method New(M:Matrix2D)
@@ -58,6 +58,12 @@ Class Matrix2D
 	
 	Method Set:Void(M:Matrix2D)
 		Set(M.mA, M.mB, M.mC, M.mD, M.mTx, M.mTy)
+		
+		Return
+	End
+	
+	Method Set:Void(Data:Float[], Offset:Int=0)
+		Set(Data[Offset], Data[Offset+1], Data[Offset+2], Data[Offset+3], Data[Offset+4], Data[Offset+5])
 		
 		Return
 	End
