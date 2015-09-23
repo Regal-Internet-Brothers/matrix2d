@@ -36,6 +36,10 @@ Class Matrix2D
 	End
 	
 	' Methods:
+	Method ToArray:Float[]()
+		Return [mA, mB, mC, mD, mTx, mTy]
+	End
+	
 	Method Equals:Bool(M:Matrix2D)
 		If (M = Self) Then
 			Return True
@@ -68,7 +72,29 @@ Class Matrix2D
 		Return
 	End
 	
-	' This concatenates this matrix with the input, combining the geometric effects of the two.
+	Method Get:Float(Index:Int)
+		' Array behavior:
+		Select Index
+			Case 0
+				Return mA
+			Case 1
+				Return mB
+			Case 2
+				Return mC
+			Case 3
+				Return mD
+			Case 4
+				Return mTx
+			Case 5
+				Return mTy
+		End Select
+		
+		Return 0.0
+	End
+	
+	' This concatenates this matrix with the input,
+	' combining the geometric effects of the two;
+	' this command DOES NOT create a new 'Matrix2D' object.
 	Method Concatenate:Void(M:Matrix2D)
 		Concatenate(M.mA, M.mB, M.mC, M.mD, M.mTx, M.mTy)
 		
@@ -76,6 +102,7 @@ Class Matrix2D
 	End
 	
 	' This may be used to avoid creation of another 'Matrix2D' object.
+	' This overload obviously follows the same rules as the container-based one.
 	Method Concatenate:Void(mA:Float, mB:Float, mC:Float, mD:Float, mTx:Float, mTy:Float)
 		Local a:Float = (mA * Self.mA  + mC * Self.mB)
 		Local b:Float = (mB * Self.mA  + mD * Self.mB)
@@ -221,7 +248,7 @@ Class Matrix2D
 	
 	' Properties:
 	Method ToString:String() Property
-		Return "[a: " + Self.mA + ", " + "b: " + Self.mB + ", " + "c: " + Self.mC + ", " + "d: " + Self.mD + ", " + "tx: " + Self.mTx + ", " + "ty: " + Self.mTy + "]"
+		Return "[A: " + Self.mA + ", " + "B: " + Self.mB + ", " + "C: " + Self.mC + ", " + "D: " + Self.mD + ", " + "TX: " + Self.mTx + ", " + "TY: " + Self.mTy + "]"
 	End
 	
 	' This calculates the determinate of the matrix.
