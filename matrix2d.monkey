@@ -45,7 +45,15 @@ Class Matrix2D
 			Return True
 		Endif
 		
-		Return ((M.mA = Self.mA) And (M.mB = Self.mB) And (M.mC = Self.mC) And (M.mD = Self.mD) And (M.mTx = Self.mTx) And (M.mTy = Self.mTy))
+		Return Equals(M.mA, M.mB, M.mC, M.mD, M.mTx, M.mTy)
+	End
+	
+	Method Equals:Bool(Data:Float[], Offset:Int=0)
+		Return Equals(Data[Offset], Data[Offset+1], Data[Offset+2], Data[Offset+3], Data[Offset+4], Data[Offset+5])
+	End
+	
+	Method Equals:Bool(a:Float, b:Float, c:Float, d:Float, tx:Float, ty:Float)
+		Return ((a = Self.mA) And (b = Self.mB) And (c = Self.mC) And (d = Self.mD) And (tx = Self.mTx) And (ty = Self.mTy))
 	End
 	
 	' This allows you to manually set each value of this matrix.
@@ -116,6 +124,12 @@ Class Matrix2D
 		Return
 	End
 	
+	Method Concatenate:Void(Data:Float[], Offset:Int=0)
+		Concatenate(Data[Offset], Data[Offset+1], Data[Offset+2], Data[Offset+3], Data[Offset+4], Data[Offset+5])
+		
+		Return
+	End
+	
 	' This translates a matrix along the X and Y axes.
 	Method Translate:Void(X:Float, Y:Float)
 		Self.mTx += X
@@ -145,10 +159,19 @@ Class Matrix2D
 	
 	' This applies a rotation on the matrix.
 	Method Rotate:Void(Angle:Float)
-		Local C:= Cos(Angle)
-		Local S:= Sin(Angle)
+		Rotate(Sin(Angle), Cos(Angle))
 		
-		Concatenate(C, S, -S, C, 0.0, 0.0)
+		Return
+	End
+	
+	Method Rotate:Void(RSin:Float, RCos:Float)
+		Rotate(RSin, RCos, -RSin)
+		
+		Return
+	End
+	
+	Method Rotate:Void(RSin:Float, RCos:Float, NRSin:Float)
+		Concatenate(RCos, RSin, NRSin, RCos, 0.0, 0.0)
 		
 		Return
 	End
@@ -183,17 +206,21 @@ Class Matrix2D
 		Return
 	End
 	
-	' This performs the opposite transformation of the matrix.
+	' This performs an inversion transformation on this matrix:
 	Method Invert:Void()
-		Local det:= Self.Determinant
+		Invert(Determinant)
 		
-		Local a:Float = (Self.mD / det)
-		Local b:Float = (-Self.mB / det)
-		Local c:Float = (-Self.mC / det)
-		Local d:Float = (Self.mA / det)
+		Return
+	End
+	
+	Method Invert:Void(Determinant:Float)
+		Local a:Float = (Self.mD / Determinant)
+		Local b:Float = (-Self.mB / Determinant)
+		Local c:Float = (-Self.mC / Determinant)
+		Local d:Float = (Self.mA / Determinant)
 		
-		Local tx:Float = (((Self.mC * Self.mTy) - (Self.mD * Self.mTx)) / det)
-		Local ty:Float = (((Self.mB * Self.mTx) - (Self.mA * Self.mTy)) / det)
+		Local tx:Float = (((Self.mC * Self.mTy) - (Self.mD * Self.mTx)) / Determinant)
+		Local ty:Float = (((Self.mB * Self.mTx) - (Self.mA * Self.mTy)) / Determinant)
 		
 		Set(a, b, c, d, tx, ty)
 		
@@ -224,6 +251,22 @@ Class Matrix2D
 		Return V
 	End
 	
+	Method TransformPoint:Void(Output:Float[], X:Float, Y:Float, Offset:Int=0)
+		Output[Offset] = TransformPointX(X, Y)
+		Output[Offset+1] = TransformPointY(X, Y)
+		
+		Return
+	End
+	
+	Method TransformPoint_ToArray:Float[](X:Float, Y:Float)
+		Local Output:Float[2]
+		
+		TransformPoint(Output, X, Y)
+		
+		Return Output
+	End
+	
+	' This will modify the 'XY' array by transforming its contents.
 	Method TransformPoint:Void(XY:Float[], Offset:Int=0)
 		' Local variable(s):
 		
@@ -254,6 +297,30 @@ Class Matrix2D
 	' This calculates the determinate of the matrix.
 	Method Determinant:Float() Property
 		Return ((Self.mA * Self.mD) - (Self.mC * Self.mB))
+	End
+	
+	Method A:Float() Property
+		Return mA
+	End
+	
+	Method B:Float() Property
+		Return mB
+	End
+	
+	Method C:Float() Property
+		Return mC
+	End
+	
+	Method D:Float() Property
+		Return mD
+	End
+	
+	Method TX:Float() Property
+		Return mTx
+	End
+	
+	Method TY:Float() Property
+		Return mTy
 	End
 	
 	' Fields (Public):
