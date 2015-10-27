@@ -3,9 +3,9 @@ Strict
 Public
 
 ' Imports:
-Import matrix2d
+Import matrix2d ' regal.matrix2d
 
-Import polygon
+Import regal.polygon
 
 ' Functions:
 

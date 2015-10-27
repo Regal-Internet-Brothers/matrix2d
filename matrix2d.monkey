@@ -9,7 +9,7 @@ Public
 #End
 
 ' Imports:
-Import vector
+Import regal.vector
 
 ' Classes:
 Class Matrix2D
