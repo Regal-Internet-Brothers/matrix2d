@@ -1,15 +1,22 @@
-Strict
-
-Public
-
 #Rem
 	This module provides a refactored version of Simon "NoOdle" Ferguson's original implementation.
 	
 	His original implementation can be found here: http://www.monkey-x.com/Community/posts.php?topic=1992
 #End
 
+Strict
+
+Public
+
+' Preprocessor related:
+
+' This may be used to toggle features that use 'regal.vector'.
+#MATRIX2D_VECTOR = True
+
 ' Imports:
-Import regal.vector
+#If MATRIX2D_VECTOR
+	Import regal.vector
+#End
 
 ' Classes:
 Class Matrix2D
@@ -226,30 +233,32 @@ Class Matrix2D
 		
 		Return
 	End
-
-	' This applies the geometric transformation represented by the matrix to the specified point.
-	' In other words, the real position of the point.
-	Method TransformPoint:Void(Point:Vector2D<Float>)
-		' Local variable(s):
-		
-		' Keep track of the initial X and Y values:
-		Local PX:= Point.X
-		Local PY:= Point.Y
-		
-		Point.X = TransformPointX(PX, PY)
-		Point.Y = TransformPointY(PX, PY)
-		
-		Return
-	End
 	
-	' This will generate a new 2D vector using the input.
-	Method TransformPoint:Vector2D<Float>(X:Float, Y:Float)
-		Local V:= New Vector2D<Float>(X, Y)
+	#If MATRIX2D_VECTOR
+		' This applies the geometric transformation represented by the matrix to the specified point.
+		' In other words, the real position of the point.
+		Method TransformPoint:Void(Point:Vector2D<Float>)
+			' Local variable(s):
+			
+			' Keep track of the initial X and Y values:
+			Local PX:= Point.X
+			Local PY:= Point.Y
+			
+			Point.X = TransformPointX(PX, PY)
+			Point.Y = TransformPointY(PX, PY)
+			
+			Return
+		End
 		
-		TransformPoint(V)
-		
-		Return V
-	End
+		' This will generate a new 2D vector using the input.
+		Method TransformPoint:Vector2D<Float>(X:Float, Y:Float)
+			Local V:= New Vector2D<Float>(X, Y)
+			
+			TransformPoint(V)
+			
+			Return V
+		End
+	#End
 	
 	Method TransformPoint:Void(Output:Float[], X:Float, Y:Float, Offset:Int=0)
 		Output[Offset] = TransformPointX(X, Y)
