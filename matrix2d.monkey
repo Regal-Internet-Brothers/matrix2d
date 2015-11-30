@@ -16,6 +16,11 @@ Public
 ' Imports:
 #If MATRIX2D_VECTOR
 	Import regal.vector
+	
+	#If VECTOR_IMPLEMENTED
+		' Set an internal implementation-flag.
+		#__MATRIX2D_VECTOR = True
+	#End
 #End
 
 ' Classes:
@@ -234,7 +239,7 @@ Class Matrix2D
 		Return
 	End
 	
-	#If MATRIX2D_VECTOR
+	#If __MATRIX2D_VECTOR
 		' This applies the geometric transformation represented by the matrix to the specified point.
 		' In other words, the real position of the point.
 		Method TransformPoint:Void(Point:Vector2D<Float>)
